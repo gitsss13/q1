@@ -9,10 +9,13 @@ pipeline {
         }
 
         stage('Install Dependencies') {
+                  stage('Install Dependencies') {
             steps {
                 bat 'python -m pip install --upgrade pip'
-                bat 'pip install -r requirements.txt'
+                bat 'pip install pytest' // Installs pytest directly without needing the file
             }
+        }
+
         }
 
         stage('Run Unit Tests') {
