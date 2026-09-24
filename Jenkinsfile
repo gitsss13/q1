@@ -4,23 +4,40 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url:'https://github.com/gitsss13/q1.git'
+                git branch:'main', url:'https://github.com/gitsss13/q5.git'
             }
         }
 
-        stage('Install Dependencies') {
-            steps {
-                bat 'python -m pip install --upgrade pip'
-                bat 'pip install -r requirements.txt'
+        stage('Parallel Checks') {
+            parallel {
+                stage('Unit Check') {
+                    steps {
+                        sh 'python3 unit_check.py'
+                    }
+                }
+
+                stage('Integration Check') {
+                    steps {
+                        sh 'python3 integration_check.py'
+                    }
+                }
             }
         }
 
-        stage('Run Unit Tests') {
+        stage('Summary') {
             steps {
-                bat 'python -m pytest test_app.py'
+                echo 'All checks passed. Summary is complete.'
             }
         }
     }
+
+    post {
+        success {
+            echo 'Pipeline completed successfully.'
+        }
+
+        failure {
+            echo 'Pipeline failed.'
+        }
+    }
 }
-
-
