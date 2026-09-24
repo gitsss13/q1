@@ -1,43 +1,24 @@
 pipeline {
-    agent any
+    agent
 
     stages {
         stage('Checkout') {
             steps {
-                git branch:'main', url:'https://github.com/gitsss13/q5.git'
+                git  branch: 'main', url: 'https://github.com/gitsss13/q1.git
             }
         }
 
-        stage('Parallel Checks') {
-            parallel {
-                stage('Unit Check') {
-                    steps {
-                        sh 'python3 unit_check.py'
-                    }
-                }
-
-                stage('Integration Check') {
-                    steps {
-                        sh 'python3 integration_check.py'
-                    }
-                }
-            }
-        }
-
-        stage('Summary') {
+        stage('Install Dependencies') {
             steps {
-                echo 'All checks passed. Summary is complete.'
+                bat 'python -m pip install --upgrade pip'
+                bat 'pip install -r requirements.txt'
             }
         }
-    }
 
-    post {
-        success {
-            echo 'Pipeline completed successfully.'
-        }
-
-        failure {
-            echo 'Pipeline failed.'
+        stage('Run Unit Tests') {
+            steps {
+                bat 'pytest -q'
+            }
         }
     }
 }
