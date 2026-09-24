@@ -1,10 +1,10 @@
 pipeline {
-    agent any 
+    agent any
 
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/gitsss/q1.git'
+               git branch: 'main', url: 'https://github.com/gitsss13/q1.git'
             }
         }
 
@@ -22,4 +22,3 @@ pipeline {
         }
     }
 }
-
