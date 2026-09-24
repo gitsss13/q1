@@ -1,5 +1,6 @@
 def square(n):
     return n * n
 
-def is_even(n):
-    return n % 2 == 0
+echo def is_even(n): 
+echo     return n %% 2 != 0 
+
